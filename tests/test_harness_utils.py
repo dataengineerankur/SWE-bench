@@ -1,9 +1,27 @@
 import unittest
-from swebench.harness.utils import run_threadpool
+import tempfile
+import os
+from swebench.harness.utils import run_threadpool, read_file
 from swebench.harness.test_spec.python import clean_environment_yml, clean_requirements
 
 
 class UtilTests(unittest.TestCase):
+    def test_read_file_missing(self):
+        """Test that read_file handles missing files gracefully"""
+        result = read_file("/tmp/nonexistent_file_12345.json")
+        self.assertEqual(result, "{}")
+
+    def test_read_file_exists(self):
+        """Test that read_file reads existing files correctly"""
+        with tempfile.NamedTemporaryFile(mode='w', delete=False, suffix='.txt') as f:
+            f.write("test content")
+            temp_path = f.name
+        try:
+            result = read_file(temp_path)
+            self.assertEqual(result, "test content")
+        finally:
+            os.unlink(temp_path)
+
     def test_run_threadpool_all_failures(self):
         def failing_func(_):
             raise ValueError("Test error")

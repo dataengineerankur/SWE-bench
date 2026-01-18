@@ -22,6 +22,23 @@ from unidiff import PatchSet
 load_dotenv()
 
 
+def read_file(path: str) -> str:
+    """
+    Safely read a file, handling the case where the file doesn't exist.
+    
+    Args:
+        path: Path to the file to read
+        
+    Returns:
+        File contents as string, or empty dict JSON if file doesn't exist
+    """
+    file_path = Path(path)
+    if not file_path.exists():
+        # Return empty object for missing spec files to allow graceful handling
+        return "{}"
+    return file_path.read_text()
+
+
 class EvaluationError(Exception):
     def __init__(self, instance_id, message, logger):
         super().__init__(message)
