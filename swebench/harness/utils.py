@@ -38,6 +38,22 @@ class EvaluationError(Exception):
         )
 
 
+def read_file(path: str) -> str:
+    """
+    Read a file and return its contents. Returns empty string if file doesn't exist.
+    
+    Args:
+        path: Path to the file to read
+        
+    Returns:
+        File contents as string, or empty string if file doesn't exist
+    """
+    file_path = Path(path)
+    if not file_path.exists():
+        return ""
+    return file_path.read_text()
+
+
 def get_predictions_from_file(predictions_path: str, dataset_name: str, split: str):
     if predictions_path == "gold":
         print("Using gold predictions")
