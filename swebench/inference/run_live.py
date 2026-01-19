@@ -9,6 +9,7 @@ specified directory.
 
 import json
 import subprocess
+import sys
 from pathlib import Path
 from ghapi.all import GhApi
 import os
@@ -193,7 +194,7 @@ def main(
     gh = GhApi(token=gh_token)
     tokenizer, tokenizer_func = TOKENIZER_FUNCS["cl100k"]
     document_encoding_func = DOCUMENT_ENCODING_FUNCTIONS[document_encoding_func]
-    python = subprocess.check_output(["which", "python"]).decode("utf-8").strip()
+    python = sys.executable
     outputs = list()
     for issue, commit in tqdm(zip(issue_url, base_commit), total=len(issue_url)):
         owner, repo, issue_num = parse_issue_url(issue)
