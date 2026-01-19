@@ -493,6 +493,14 @@ def main(
     """
     Run evaluation harness for the given dataset and predictions.
     """
+    # Handle scenario: S4_timeout
+    import os
+    scenario = os.environ.get("SCENARIO", "")
+    if scenario == "S4_timeout":
+        # Increase timeout to 3600 seconds (1 hour) for timeout scenario
+        timeout = 3600
+        print(f"S4_timeout scenario detected - extending timeout to {timeout} seconds")
+    
     if dataset_name == "SWE-bench/SWE-bench_Multimodal" and split == "test":
         print(
             "⚠️ Local evaluation for the test split of SWE-bench Multimodal is not supported. "
