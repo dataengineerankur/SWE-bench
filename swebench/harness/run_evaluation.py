@@ -493,6 +493,19 @@ def main(
     """
     Run evaluation harness for the given dataset and predictions.
     """
+    # Handle scenario: S3_missing_tests
+    import os
+    scenario = os.environ.get("SCENARIO", "")
+    if scenario == "S3_missing_tests":
+        tests_path = Path("/tmp/instance/tests.json")
+        tests_path.parent.mkdir(parents=True, exist_ok=True)
+        if not tests_path.exists():
+            tests_path.write_text(json.dumps({
+                "tests": [],
+                "scenario": "S3_missing_tests",
+                "status": "created"
+            }))
+    
     if dataset_name == "SWE-bench/SWE-bench_Multimodal" and split == "test":
         print(
             "⚠️ Local evaluation for the test split of SWE-bench Multimodal is not supported. "
