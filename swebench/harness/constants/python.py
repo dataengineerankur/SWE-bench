@@ -533,7 +533,7 @@ for k in ["8.0", "8.1"]:
 SPECS_ASTROPY = {
     k: {
         "python": "3.9",
-        "install": "python -m pip install -e .[test] --verbose",
+        "install": "python -m pip install -e .[test] --verbose --no-build-isolation",
         "pip_packages": [
             "attrs==23.1.0",
             "exceptiongroup==1.1.3",
@@ -569,7 +569,7 @@ SPECS_ASTROPY.update(
     {
         k: {
             "python": "3.6",
-            "install": "python -m pip install -e .[test] --verbose",
+            "install": "python -m pip install -e .[test] --verbose --no-build-isolation",
             "packages": "setuptools==38.2.4",
             "pip_packages": [
                 "attrs==17.3.0",
