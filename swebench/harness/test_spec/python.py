@@ -441,7 +441,11 @@ def make_eval_script_list_py(
         f"conda activate {env_name}",
     ]
     if "install" in specs:
-        eval_commands.append(specs["install"])
+        # For astropy, use a lighter install that doesn't rebuild C extensions
+        if instance["repo"] == "astropy/astropy":
+            eval_commands.append("python -m pip install -e . --no-build-isolation --no-deps")
+        else:
+            eval_commands.append(specs["install"])
     eval_commands += [
         reset_tests_command,
         apply_test_patch_command,
