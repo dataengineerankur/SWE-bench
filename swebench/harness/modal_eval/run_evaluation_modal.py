@@ -75,6 +75,12 @@ class ModalSandboxRuntime:
         if timeout is None:
             # Default 30 minutes
             timeout = 60 * 30
+        
+        # Ensure minimum timeout for builds with C extensions
+        # Some instances (like astropy) require longer build times
+        MIN_TIMEOUT = 300  # 5 minutes minimum
+        if timeout < MIN_TIMEOUT:
+            timeout = MIN_TIMEOUT
 
         return modal.Sandbox.create(
             image=self.image.add_local_file(
